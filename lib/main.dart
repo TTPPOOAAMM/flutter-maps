@@ -1,20 +1,33 @@
 import 'package:flutter/material.dart';
-import 'screens/map_screen.dart';
+import 'map_screen.dart';
 
 void main() {
-  runApp(const RouteApp());
+  // Обязательная инициализация биндингов перед запуском приложения,
+  // если в дальнейшем потребуется асинхронная инициализация (например, баз данных или системных настроек) до runApp.
+  WidgetsFlutterBinding.ensureInitialized();
+
+  runApp(const RoutingMapApp());
 }
 
-class RouteApp extends StatelessWidget {
-  const RouteApp({Key? key}) : super(key: key);
+class RoutingMapApp extends StatelessWidget {
+  const RoutingMapApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Учебный проект: Карты',
+      title: 'GIS Навигатор',
+      // Настройка базовой визуальной темы приложения с использованием Material 3
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        colorSchemeSeed: Colors.blue,
+        useMaterial3: true,
+        appBarTheme: const AppBarTheme(
+          centerTitle: true,
+          elevation: 2,
+        ),
       ),
+      // Отключение баннера "DEBUG" в правом верхнем углу
+      debugShowCheckedModeBanner: false,
+      // Установка экрана с картой в качестве главного (стартового) экрана
       home: const MapScreen(),
     );
   }
