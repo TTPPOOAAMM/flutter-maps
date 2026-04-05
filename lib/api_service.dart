@@ -18,15 +18,13 @@ class ApiService {
       if (response.statusCode == 200) {
         final data = json.decode(response.body);
         
-        // Анализ флага успешности маршрутизации OSRM
         if (data['code'] == 'Ok') {
-          final route = data['routes'];
+          final route = data['routes'][0]; 
           final geometry = route['geometry'];
           final coordinates = geometry['coordinates'] as List;
 
-          // Трансформация GeoJSON: конвертация массива массивов [lon, lat] в объекты LatLng(lat, lon)
           List<LatLng> points = coordinates.map((coord) {
-            return LatLng(coord as double, coord as double);
+            return LatLng((coord[1] as num).toDouble(), (coord[0] as num).toDouble());
           }).toList();
 
           return RouteData(
